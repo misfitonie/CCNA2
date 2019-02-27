@@ -1,7 +1,7 @@
 # I. Exploration du réseau d'une machine CentOS
-===============================================
+===
 ## 1) Mise en place
-===================
+===
 * Combien d'adresses disponible dans un /24 ?
     
     *Il y en a 254 disponibles*
