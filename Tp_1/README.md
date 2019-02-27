@@ -42,4 +42,4 @@ ping 10.1.2.1
 ip route show
 ```
 
-!(https://github.com/misfitonie/CCNA2/blob/master/Tp_1/img/iproute.PNG)
+![ip_route_show](https://github.com/misfitonie/CCNA2/blob/master/Tp_1/img/iproute.PNG)
