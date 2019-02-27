@@ -16,7 +16,7 @@
 
 * NAT
 ```bash
-    curl google.com
+curl google.com
 ```
 
 *le code d'erreur 301 signifie une redirection permanente*
@@ -24,10 +24,10 @@
 * NET1/NET2
 
 ```bash
-    ping 10.1.1.1
+ping 10.1.1.1
 ```
 ```bash
-    ping 10.1.2.1
+ping 10.1.2.1
 ```
 *les deux fonctionnent*
 
@@ -39,7 +39,7 @@
 * Afficher les routes:
 
 ```bash
-    ip route show
+ip route show
 ```
 
-[alt text]()
+[alt text](https://github.com/misfitonie/CCNA2/blob/master/Tp_1/img/iproute.PNG)
