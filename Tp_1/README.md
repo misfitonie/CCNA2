@@ -54,6 +54,8 @@ ip route show
 ```bash
 sudo ip route del 10.1.2.0/30
 ```
+![del_route](https://github.com/misfitonie/CCNA2/blob/master/Tp_1/img/Capture3.PNG)
+
 * Remettre une route:
 ```bash
 sudo ip route add 10.1.2.0/30
