@@ -32,7 +32,6 @@ ping 10.1.2.1
 *les deux fonctionnent*
 
 ## 2) Basics
-============
 
 ### Routes 
 
@@ -46,7 +45,9 @@ ip route show
 
 *La route par défault est la 10.0.2.2*
 *enp0s3 est la route (NAT) qui permet l'accès à 10.0.2.0/24*
+
 *enp0s8 est la route (NET1) qui permet l'accès à 10.1.1.0/24*
+
 *enp0s9 est la route (NET2) qui permet l'accès à 10.1.2.0/30*
 
 * Supprimer une route:
