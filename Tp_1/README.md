@@ -115,3 +115,42 @@ tcpdump: listening on enp0s9, link-type EN10MB (Ethernet), capture size 262144 b
 ![table whireshark](https://github.com/misfitonie/CCNA2/blob/master/Tp_1/img/Capture.PNG)
 
 # II. Communication entre deux machines
+
+## 2. Basics
+
+### Ping et ARP
+
+* Vider les ARP
+
+```bash
+sudo ip meight flush all
+```
+
+* Ping client2
+
+```bash
+ping -c 4 client2 (10.1.1.3)
+```
+*Il y a des changements dans la table ARP*
+
+```bash
+ip neight show
+
+10.1.1.1 dev enp0s8 lladdr 0a:00:27:00:00:06 REACHABLE
+10.1.1.3 dev enp0s8 lladdr 08:00:27:26:2e:dc REACHABLE
+```
+
+###UDP
+
+* Ouverture port 8888 pour client 1
+
+```bash
+sudo firewall-cmd --add-port=8888/udp --permanent
+```
+
+   *On écoute le port 8888 via un netcat
+
+```bash
+nc -u -l 8888
+```
+
