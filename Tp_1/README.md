@@ -101,7 +101,7 @@ ip neight show
 
 10.0.2.2 dev enp0s3 lladdr 52:54:00:12:35:02 REACHABLE
 ```
-###Capture réseau
+### Capture réseau
 
 * On capture 10 paquets
 
@@ -140,7 +140,7 @@ ip neight show
 10.1.1.3 dev enp0s8 lladdr 08:00:27:26:2e:dc REACHABLE
 ```
 
-###UDP
+### UDP
 
 * Ouverture port 8888 pour client 1
 
@@ -148,9 +148,134 @@ ip neight show
 sudo firewall-cmd --add-port=8888/udp --permanent
 ```
 
-   *On écoute le port 8888 via un netcat
+*On écoute le port 8888 via un netcat
 
 ```bash
 nc -u -l 8888
 ```
+* Pour client2
 
+```bash
+nc -u 10.1.1.2 8888
+```
+* Pour client1 (2éme shell)
+
+```bash
+ss -unp
+Recv-Q Send-Q Local Address:Port               Peer Address:Port              
+0      0      10.1.1.2:8888               10.1.1.3:43889              users:(("nc",pid=1512,fd=4))
+```
+
+* Pour client2 (2éme shell)
+
+```bash
+ss -unp
+Recv-Q Send-Q Local Address:Port               Peer Address:Port              
+0      0      10.1.1.3:43889             10.1.1.2:8888                users:(("nc",pid=1494,fd=3))
+```
+
+* Pour client1 (3ème shell)
+
+```bash
+sudo tcpdump -i enp0s8 -w nc-udp.pcap
+tcpdump: listening on enp0s8, link-type EN10MB (Ethernet), capture size 262144 bytes
+^C6 packets captured
+6 packets received by filter
+0 packets dropped by kernel
+```
+
+*On remarque qu'il y a bien un échange de paquets entre le client et le serveur via un protocole UDP*
+
+### TCP
+
+* Même chose on ouvre le port 8888 et on écoute ce port avec netcat (pour le client1)
+
+```bash
+sudo firewall-cmd --add-port=8888/tcp --permanent
+```
+```bash
+nc -l 8888
+```
+
+* Pour client2 
+
+```bash
+nc 10.1.1.2 8888
+```
+
+* Pour client1 (2ème shell)
+
+```bash
+ss -tnp
+State       Recv-Q Send-Q Local Address:Port               Peer Address:Port              
+ESTAB       0      0      10.1.1.2:8888               10.1.1.3:45716              users:(("nc",pid=1474,fd=5))
+ESTAB       0      0      10.1.1.2:22                 10.1.1.1:50020              
+ESTAB       0      0      10.1.1.2:22                 10.1.1.1:50071 
+```
+
+* Pour client2 (2ème shell)
+
+```bash
+ss -tnp
+State       Recv-Q Send-Q Local Address:Port               Peer Address:Port              
+ESTAB       0      0      10.1.1.3:45716             10.1.1.2:8888                users:(("nc",pid=1190,fd=3))
+ESTAB       0      0      10.1.1.3:22                 10.1.1.1:50072              
+ESTAB       0      0      10.1.1.3:22                 10.1.1.1:50021
+```
+
+* Pour client1 (3ème shell) 
+
+```bash
+sudo tcpdump -i enp0s8 -w nc-tcp.pcap 
+tcpdump: listening on enp0s8, link-type EN10MB (Ethernet), capture size 262144 bytes
+^C15 packets captured
+15 packets received by filter
+0 packets dropped by kernel
+```
+
+### Firewall
+
+* Client1: Fermeture du port 8888 UDP puis écouté netcat sur port TCP 8888 
+
+```bash
+sudo firewall-cmd --remove-port=8888/udp --permanent
+```
+```bash
+nc -u -l 8888
+```
+
+* Client2 
+
+```bash
+nc -u 10.1.1.2 8888
+```
+
+* Client1 (2ème shell)
+
+```bash
+sudo tcpdump -i enp0s8 -w firewall.pcap 
+tcpdump: listening on enp0s8, link-type EN10MB (Ethernet), capture size 262144 bytes
+^C10 packets captured
+10 packets received by filter
+0 packets dropped by kernel
+```
+
+# III. Routage statique simple
+
+* On transforme client1 en routeur
+
+```bash
+sudo sysctl -w net.ipv4.ip_forward=1 net.ipv4.ip_forward = 1
+```
+
+* On ajoute une route statique sur net2
+
+```bash
+sudo ip route add 10.1.2.0/30 via 10.1.2.2 dev enp0s9
+```
+
+*ce qui donne:*
+
+```bash
+10.1.2.0/30 via 10.1.1.2 dev enp0s9
+```
