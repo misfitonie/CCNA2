@@ -59,5 +59,59 @@ sudo ip route del 10.1.2.0/30
 
 * Remettre une route:
 ```bash
-sudo ip route add 10.1.2.0/30
+sudo ip route add 10.1.2.0/30 via 10.1.2.2 dev enp0s9
 ```
+
+```bash
+ip route show
+
+default via 10.0.2.2 dev enp0s3 proto static metric 100 
+10.0.2.0/24 dev enp0s3 proto kernel scope link src 10.0.2.15 metric 100 
+10.1.1.0/24 dev enp0s8 proto kernel scope link src 10.1.1.2 metric 100 
+10.1.2.0/30 dev enp0s9 proto kernel scope link src 10.1.2.2 metric 100 
+```
+*10.1.2.0/30 c'est bien rajouter*
+
+### Table ARP
+
+* Afficher la table ARP
+
+```bash
+ip neight show
+
+10.0.2.2 dev enp0s3 lladdr 52:54:00:12:35:02 REACHABLE
+```
+
+*Cela veut dire que j'ai déjà échanger avec 10.1.1.0*
+
+* Vider la table ARP
+
+```bash
+sudo ip neight flush all
+```
+
+* Requête vers l'hôte
+
+```bash
+ping 10.1.1.2
+```
+
+```bash
+ip neight show 
+
+10.0.2.2 dev enp0s3 lladdr 52:54:00:12:35:02 REACHABLE
+```
+###Capture réseau
+
+* On capture 10 paquets
+
+```bash
+sudo tcpdump -i enp0s9 -w ping.pcap 
+tcpdump: listening on enp0s9, link-type EN10MB (Ethernet), capture size 262144 bytes
+^C10 packets captured
+10 packets received by filter
+0 packets dropped by kernel
+```
+![table whireshark](https://github.com/misfitonie/CCNA2/blob/master/Tp_1/img/Capture.PNG)
+
+# II. Communication entre deux machines
