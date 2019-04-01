@@ -694,4 +694,5 @@
 
 ## Auteur
 Rédigé par [Lucas Consejo](https://github.com/lucasconsejo) - Etudiant Ingésup B2B [Ynov Bordeaux](https://www.ynov.com/)
-Rédigé par [Lucas Consejo](https://github.com/misfitonie) - Etudiant Ingésup B2B [Ynov Bordeaux](https://www.ynov.com/)
+
+Rédigé par [Théo Ferreira](https://github.com/misfitonie) - Etudiant Ingésup B2B [Ynov Bordeaux](https://www.ynov.com/)
